@@ -1,0 +1,2 @@
+# nvimsweeper
+minesweeper in nvim
