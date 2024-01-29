@@ -1,4 +1,4 @@
-local cell = {
+local Cell = {
     new = function(value)
         return {
             value = value,
@@ -21,7 +21,7 @@ Grid = {
             initialized = false,
         }
         for i = 1, width*height do
-            grid.cells[i] = cell.new(0)
+            grid.cells[i] = Cell.new(0)
         end
         return grid
     end,
@@ -39,6 +39,30 @@ Grid = {
                 if random_p < mines then
                     self.cells[i].value = -1
                     mines = mines - 1
+                    if i%self.width ~= 1 and self.cells[i-1].value ~= -1 then -- not left most column
+                        self.cells[i-1].value = self.cells[i-1].value + 1
+                    end
+                    if i%self.width ~= 0 and self.cells[i+1].value ~= -1 then -- not right most column
+                        self.cells[i+1].value = self.cells[i+1].value + 1
+                    end
+                    if (i-1)//self.width ~= 0 and self.cells[i-self.width].value ~= -1 then -- not top row
+                        self.cells[i-self.width].value = self.cells[i-self.width].value + 1
+                    end
+                    if (i-1)//self.width ~= self.height-1 and self.cells[i+self.width].value ~= -1 then -- not bottom row
+                        self.cells[i+self.width].value = self.cells[i+self.width].value + 1
+                    end
+                    if i%self.width ~= 1 and (i-1)//self.width ~= 0 and self.cells[i-self.width-1].value ~= -1 then -- not top left corner
+                        self.cells[i-self.width-1].value = self.cells[i-self.width-1].value + 1
+                    end
+                    if i%self.width ~= 1 and (i-1)//self.width ~= self.height-1 and self.cells[i+self.width-1].value ~= -1 then -- not bottom left corner
+                        self.cells[i+self.width-1].value = self.cells[i+self.width-1].value + 1
+                    end
+                    if i%self.width ~= 0 and (i-1)//self.width ~= 0 and self.cells[i-self.width+1].value ~= -1 then -- not top right corner
+                        self.cells[i-self.width+1].value = self.cells[i-self.width+1].value + 1
+                    end
+                    if i%self.width ~= 0 and (i-1)//self.width ~= self.height-1 and self.cells[i+self.width+1].value ~= -1 then -- not bottom right corner
+                        self.cells[i+self.width+1].value = self.cells[i+self.width+1].value + 1
+                    end
                     if mines == 0 then
                         break
                     end

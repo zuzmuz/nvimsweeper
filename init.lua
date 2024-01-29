@@ -9,7 +9,7 @@ for i = 1, grid.width*grid.height do
     if grid.cells[i].value == -1 then
         io.write("X")
     else
-        io.write("O")
+        io.write(grid.cells[i].value)
     end
     if i % grid.width == 0 then
         io.write("\n")
