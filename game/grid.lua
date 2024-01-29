@@ -35,10 +35,13 @@ Grid = {
         local mines = self.mines
         for i = 1, self.width*self.height do
             if i ~= Grid.grid_pos(self, start_x, start_y) then
-                local random_p = math.random(i, self.width*self.height)
-                if random_p <= mines then
+                local random_p = math.random(0, self.width*self.height - i)
+                if random_p < mines then
                     self.cells[i].value = -1
                     mines = mines - 1
+                    if mines == 0 then
+                        break
+                    end
                 end
             end
         end
