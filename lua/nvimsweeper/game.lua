@@ -1,7 +1,6 @@
-local Game = {
-}
-
-function Game:launch_game()
+local Game = {}
+print('game.lua loaded')
+function Game.launch_game()
     local stats = vim.api.nvim_list_uis()[1]
     local width = stats.width;
     local height = stats.height;
