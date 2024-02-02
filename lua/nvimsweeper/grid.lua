@@ -108,6 +108,8 @@ end
 
 
 function Grid:clear_adjacent(x, y)
-    print('deghre')
+    if x > 1 then
+        self:clear_cell(x-1, y)
+    end
 end
 return Grid
