@@ -86,22 +86,21 @@ function Grid:all_cleared()
     return self.cleared == self.width*self.height - self.mines
 end
 
-function Grid:clear_cel(x, y)
+function Grid:clear_cell(x, y)
     if not self.initialized then
         self:init(x, y)
-    else
-        local cell = self.cells[self:grid_position(x, y)]
-        if not cell.cleared then
-            cell.cleared = true
-            self.cleared = self.cleared + 1
-            if cell.value == -1 then
-                return "lost"
-            elseif cell.value == 0 then
-                return self:clear_adjacent(x, y)
-            end
-            if self:all_cleared() then
-                return "won"
-            end
+    end
+    local cell = self.cells[self:grid_position(x, y)]
+    if not cell.cleared then
+        cell.cleared = true
+        self.cleared = self.cleared + 1
+        if cell.value == -1 then
+            return "lost"
+        elseif cell.value == 0 then
+            return self:clear_adjacent(x, y)
+        end
+        if self:all_cleared() then
+            return "won"
         end
     end
     return "playing"

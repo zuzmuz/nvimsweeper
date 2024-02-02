@@ -22,7 +22,7 @@ local actions = {
     },
     game = {
         select = function (position, state)
-            -- clear cell
+            return state:clear_cell(position[2]+1, position[1])
         end,
         clear_adjacent = function (position, state)
         end,

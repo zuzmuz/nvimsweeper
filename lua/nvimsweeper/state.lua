@@ -80,11 +80,14 @@ function State:create_game(level)
     local grid = Grid:new(level_info.grid_size[1],
                           level_info.grid_size[2],
                           level_info.nb_of_mines)
+    self.grid = grid
     self.mode = 'game'
     return represent_grid(grid)
 end
 
-function State:select_cell(position)
+function State:clear_cell(x, y)
+    local playing_state = self.grid:clear_cell(x, y)
+    return represent_grid(self.grid)
 end
 
 function State:flag_cell(position)
