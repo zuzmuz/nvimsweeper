@@ -1,5 +1,5 @@
 local Cell = {
-    value = false,
+    value = 0,
     cleared = false,
     flagged = false,
     marked = false,
@@ -35,16 +35,17 @@ end
 
 
 
-function Grid:grid_pos(x, y)
+function Grid:grid_position(x, y)
     return (y-1)*self.width + x
 end
 
 
 function Grid:init(start_x, start_y)
+    self.initialized = true
     math.randomseed(os.time())
     local mines = self.mines
     for i = 1, self.width*self.height do
-        if i ~= Grid.grid_pos(self, start_x, start_y) then
+        if i ~= Grid.grid_position(self, start_x, start_y) then
             local random_p = math.random(0, self.width*self.height - i)
             if random_p < mines then
                 self.cells[i].value = -1
@@ -81,5 +82,33 @@ function Grid:init(start_x, start_y)
     end
 end
 
+function Grid:all_cleared()
+    return self.cleared == self.width*self.height - self.mines
+end
 
+function Grid:clear_cel(x, y)
+    if not self.initialized then
+        self:init(x, y)
+    else
+        local cell = self.cells[self:grid_position(x, y)]
+        if not cell.cleared then
+            cell.cleared = true
+            self.cleared = self.cleared + 1
+            if cell.value == -1 then
+                return "lost"
+            elseif cell.value == 0 then
+                return self:clear_adjacent(x, y)
+            end
+            if self:all_cleared() then
+                return "won"
+            end
+        end
+    end
+    return "playing"
+end
+
+
+function Grid:clear_adjacent(x, y)
+    print('deghre')
+end
 return Grid

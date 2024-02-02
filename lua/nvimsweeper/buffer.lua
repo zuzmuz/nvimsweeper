@@ -1,7 +1,6 @@
 local Buffer = {
     bufnr = 0,
     winnr = 0,
-    lines = {},
 }
 
 function Buffer:new()
@@ -13,13 +12,6 @@ function Buffer:new()
     vim.api.nvim_buf_set_option(bufnr, 'buftype', 'nofile')
     vim.api.nvim_buf_set_option(bufnr, 'swapfile', false)
     vim.api.nvim_buf_set_option(bufnr, 'modifiable', false)
-
-    buffer:set_menu()
-
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<CR>', '', { callback = function()
-        self:on_select()
-    end})
-
 
     local stats = vim.api.nvim_list_uis()[1]
     local width = stats.width;
@@ -43,23 +35,11 @@ function Buffer:new()
     return buffer
 end
 
-function Buffer:on_select()
-    local pos = vim.api.nvim_win_get_cursor(self.winnr)
-
-    print('on_select' .. pos[1] .. ' ' .. pos[2])
-end
-
-
 function Buffer:set_lines(lines)
-    self.lines = lines
+    print('lines', lines[1])
     vim.api.nvim_buf_set_option(self.bufnr, 'modifiable', true)
     vim.api.nvim_buf_set_lines(self.bufnr, 0, -1, false, lines)
     vim.api.nvim_buf_set_option(self.bufnr, 'modifiable', false)
 end
-
-function Buffer:set_menu()
-    self:set_lines({ "easy", "intermediate", "hard" })
-end
-
 
 return Buffer

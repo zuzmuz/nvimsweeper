@@ -1,19 +1,13 @@
 local Buffer = require('nvimsweeper.buffer')
+local State = require('nvimsweeper.state')
+local Controller = require('nvimsweeper.controller')
 
-local Game = {
-
-    buffer = nil,
-    window = nil,
-
-    grid = nil,
-
-
-}
-
+local Game = {}
 
 function Game.launch()
-
     local buffer = Buffer:new()
+    local state = State:init()
+    local controller = Controller:set(state, buffer)
 
 end
 
